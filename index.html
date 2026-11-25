@@ -3,41 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Fox FM - YouTube</title>
+  <title>Fox FM — Music Studio</title>
   <meta name="theme-color" content="#ff6b00" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Fox FM" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23111118'/%3E%3Cpath d='M21 19h24v6H28v6h15v6H28v11h-7V19z' fill='%23ff6b00'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='44' fill='%23111118'/%3E%3Cpath d='M64 56h72v18H84v18h44v18H84v32H64V56z' fill='%23ff6b00'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="ambient-glow" aria-hidden="true"></div>
+
   <div class="app">
+    <!-- سەردێڕی پڕۆفیشناڵ -->
     <header class="header">
-      <h1>🎧 Fox FM</h1>
-      <p>گەڕان و لێدانی گۆرانیی یوتوب</p>
+      <div class="brand-row">
+        <div class="brand-logo">🦊</div>
+        <div>
+          <h1>Fox FM</h1>
+          <p>ستۆدیۆی گۆرانیی کوردی، فۆڵدەری بێ خەت و یوتوب</p>
+        </div>
+      </div>
+      <div class="net-pill" id="netStatus">● ئۆنلاین</div>
     </header>
 
-    <form class="search-form" onsubmit="handleSearch(event)">
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="ناوی گۆرانی یان هونەرمەند بنووسە..."
-        required
-      />
-      <button type="submit">گەڕان</button>
-    </form>
+    <!-- شریتی گۆڕینی بەشەکان (Tabs) بۆ ڕووکارێکی ڕێک و خێرا -->
+    <nav class="tabs" aria-label="بەشەکانی بەرنامە">
+      <button type="button" class="tab-btn active" data-tab="offline" onclick="switchTab('offline')">📂 بێ خەت و کامێرا</button>
+      <button type="button" class="tab-btn" data-tab="kurdish" onclick="switchTab('kurdish')">🎶 کوردی</button>
+      <button type="button" class="tab-btn" data-tab="youtube" onclick="switchTab('youtube')">📺 یوتوب</button>
+    </nav>
 
-    <div id="statusMsg" class="status"></div>
+    <!-- ١. بەشی فۆڵدەری بێ خەت، کامێرا ڕۆڵ و لینکی MP3 -->
+    <div id="tab-offline" class="tab-panel active">
+      <section class="card glass">
+        <div class="card-top">
+          <div>
+            <h2>📁 هێنان لە کامێرا ڕۆڵ / مۆبایل</h2>
+            <p class="hint">فایلە دەنگی یان ڤیدیۆییەکانی کامێرا ڕۆڵ هەڵبژێرە تا بەبێ خەت لەناو بەرنامە بمێننەوە.</p>
+          </div>
+        </div>
+        <label class="upload-btn">
+          <span>➕ هەڵبژاردن لە کامێرا ڕۆڵ / فایلەکان</span>
+          <input
+            type="file"
+            id="cameraRollInput"
+            accept="audio/*,video/*"
+            multiple
+            hidden
+            onchange="importFromCameraRoll(event)"
+          />
+        </label>
+        <div id="importMsg" class="status"></div>
+      </section>
 
-    <!-- پلەیەری یوتوب -->
-    <section class="player-box">
-      <div class="video-frame">
-        <div id="ytPlayer"></div>
-      </div>
-      <div id="nowPlaying" class="now-playing">گۆرانییەک هەڵبژێرە یان سێرچ بکە</div>
-    </section>
+      <section class="card glass">
+        <div class="card-top">
+          <div>
+            <h2>🔗 زیادکردن بە لینکی ڕاستەوخۆ (MP3)</h2>
+            <p class="hint">لینکی ڕاستەوخۆی فایلێکی دەنگی دابنێ تا بۆ فۆڵدەری بێ خەت دابەزێت.</p>
+          </div>
+        </div>
+        <form class="search-form" onsubmit="importFromDirectUrl(event)">
+          <input
+            type="url"
+            id="directUrlInput"
+            placeholder="https://example.com/song.mp3"
+            required
+          />
+          <button type="submit" class="accent-btn">دابەزاندن</button>
+        </form>
+        <div id="urlImportMsg" class="status"></div>
+      </section>
 
-    <!-- لیستی ئەنجامەکان -->
-    <section id="results" class="results"></section>
+      <section class="card glass">
+        <div class="section-head">
+          <h2>📂 فۆڵدەری گۆرانییەکانم (بێ خەت)</h2>
+          <span id="savedCount" class="badge">0 فایل</span>
+        </div>
+        <div id="offlineFolderList" class="track-list"></div>
+      </section>
+    </div>
+
+    <!-- ٢. بەشی گۆرانییە کوردییەکان -->
+    <div id="tab-kurdish" class="tab-panel">
+      <section class="card glass">
+        <div class="section-head">
+          <h2>🎶 گۆرانییە کوردییەکان</h2>
+          <span id="kurdishCount" class="badge">0 گۆرانی</span>
+        </div>
+        <div id="kurdishList" class="track-list"></div>
+      </section>
+    </div>
+
+    <!-- ٣. بەشی گەڕان، پاشەکەوتکراوەکان و لێدانی یوتوب -->
+    <div id="tab-youtube" class="tab-panel">
+      <section class="card glass">
+        <h2>📺 گەڕان و لێدان لە یوتوب</h2>
+        <form class="search-form" onsubmit="handleSearch(event)">
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="ناوی گۆرانی یان هونەرمەند بنووسە..."
+            required
+          />
+          <button type="submit" class="accent-btn">گەڕان</button>
+        </form>
+
+        <div id="statusMsg" class="status"></div>
+
+        <div class="video-frame">
+          <div id="ytPlayer"></div>
+        </div>
+        <div id="nowPlaying" class="now-playing">ڤیدیۆیەک هەڵبژێرە یان سێرچ بکە</div>
+
+        <div id="results" class="results"></div>
+      </section>
+
+      <section class="card glass">
+        <div class="section-head">
+          <h2>⭐ پاشەکەوتکراوەکانی یوتوب</h2>
+          <span id="ytSavedCount" class="badge">0 گۆرانی</span>
+        </div>
+        <div id="ytSavedList" class="results"></div>
+      </section>
+    </div>
   </div>
 
+  <!-- پلەیەری پڕۆفیشناڵی جێگیری خوارەوە -->
+  <footer class="mini-player glass-player" id="miniPlayer" style="display: none;">
+    <div class="mini-top">
+      <div class="eq-badge" id="eqBadge">♫</div>
+      <div class="mini-info">
+        <div id="miniTitle" class="mini-title">...</div>
+        <div id="miniArtist" class="mini-artist">...</div>
+      </div>
+      <div class="mini-controls">
+        <button type="button" class="ctrl-btn" onclick="playPrevTrack()" title="پێشوو">⏮</button>
+        <button type="button" class="ctrl-btn main" id="miniPlayBtn" onclick="togglePlayPause()" title="لێدان / وەستان">⏸</button>
+        <button type="button" class="ctrl-btn" onclick="playNextTrack()" title="دواتر">⏭</button>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <span id="currentTime" class="time-txt">0:00</span>
+      <input type="range" id="seekBar" min="0" max="100" value="0" step="0.1" oninput="seekAudio(this.value)" />
+      <span id="totalTime" class="time-txt">0:00</span>
+    </div>
+  </footer>
+
+  <audio id="audioPlayer" preload="metadata"></audio>
   <script src="https://www.youtube.com/iframe_api"></script>
   <script src="app.js"></script>
 </body>
