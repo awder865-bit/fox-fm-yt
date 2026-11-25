@@ -1,6 +1,6 @@
 // ئەگەر API Keyـی یوتوبت هەیە لێرە دایبنێ بۆ گەڕان لە هەموو یوتوب
 // ئەگەر بەتاڵ بێت، لە لیستی خوارەوە (localTracks) گەڕان دەکات
-const YOUTUBE_API_KEY = "";
+const YOUTUBE_API_KEY = "AIzaSyAXRkAhjP5J4_Zg4mG3u7k8dTrEo71MVVk";
 
 const localTracks = [
   {
