@@ -1,22 +1,21 @@
 {
-  "name": "Fox FM",
+  "name": "Fox FM — Music & YouTube Studio",
   "short_name": "Fox FM",
-  "start_url": "./index.html",
+  "description": "پڕۆفیشناڵترین پلەیەری مۆسیقای کوردی، فۆڵدەری بێ خەت و کامێرا ڕۆڵ، و گەڕان لە یوتوب",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#0f0f12",
+  "orientation": "portrait",
+  "background_color": "#09090d",
   "theme_color": "#ff6b00",
   "lang": "ku",
   "dir": "rtl",
   "icons": [
     {
-      "src": "https://placehold.co/192x192/ff6b00/ffffff?text=Fox",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "https://placehold.co/512x512/ff6b00/ffffff?text=Fox+FM",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23ff851b'/%3E%3Cstop offset='100%25' stop-color='%23d9480f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='%23111118'/%3E%3Ccircle cx='256' cy='256' r='165' fill='url(%23g)' opacity='0.18'/%3E%3Cpath d='M176 156h184v46H224v42h116v46H224v84h-48V156z' fill='url(%23g)'/%3E%3Ccircle cx='352' cy='348' r='36' fill='%23ff6b00'/%3E%3C/svg%3E",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }
