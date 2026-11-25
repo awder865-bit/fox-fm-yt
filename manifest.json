@@ -1,0 +1,22 @@
+{
+  "name": "Fox FM",
+  "short_name": "Fox FM",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f0f12",
+  "theme_color": "#ff6b00",
+  "lang": "ku",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "https://placehold.co/192x192/ff6b00/ffffff?text=Fox",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://placehold.co/512x512/ff6b00/ffffff?text=Fox+FM",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
