@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Fox FM - YouTube</title>
+  <meta name="theme-color" content="#ff6b00" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>🎧 Fox FM</h1>
+      <p>گەڕان و لێدانی گۆرانیی یوتوب</p>
+    </header>
+
+    <form class="search-form" onsubmit="handleSearch(event)">
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="ناوی گۆرانی یان هونەرمەند بنووسە..."
+        required
+      />
+      <button type="submit">گەڕان</button>
+    </form>
+
+    <div id="statusMsg" class="status"></div>
+
+    <!-- پلەیەری یوتوب -->
+    <section class="player-box">
+      <div class="video-frame">
+        <div id="ytPlayer"></div>
+      </div>
+      <div id="nowPlaying" class="now-playing">گۆرانییەک هەڵبژێرە یان سێرچ بکە</div>
+    </section>
+
+    <!-- لیستی ئەنجامەکان -->
+    <section id="results" class="results"></section>
+  </div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="app.js"></script>
+</body>
+</html>
